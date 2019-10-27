@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Hover from './Hover'
+//custom hook import which tracks our hovering state
+import useHover from "../hooks/useHover"
 
 const styles = {
   container: {
@@ -24,18 +25,20 @@ const styles = {
   }
 }
 
-export default function Tooltip ({ text, children }) {
+export default function Tooltip({ text, children }) {
+  //invoke custom hook to grab hovering state
+  //also grabbing attributes which we can spread across any div we track
+  //attributes are onMouseOver and onMouseout
+  const [hovering, attrs] = useHover();
+
   return (
-    <Hover>
-      {(hovering) => (
-        <div style={styles.container}>
-          {hovering === true && <div style={styles.tooltip}>{text}</div>}
-          {children}
-        </div>
-      )}
-    </Hover>
+    <div style={styles.container} {...attrs}>
+      {hovering === true && <div style={styles.tooltip}>{text}</div>}
+      {children}
+    </div>
   )
 }
+
 
 Tooltip.propTypes = {
   text: PropTypes.string.isRequired,
