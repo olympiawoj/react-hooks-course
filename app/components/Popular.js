@@ -6,7 +6,7 @@ import Card from './Card'
 import Loading from './Loading'
 import Tooltip from './Tooltip'
 
-function LangaugesNav({ selected, onUpdateLanguage }) {
+function LanguagesNav({ selected, onUpdateLanguage }) {
   const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
 
   return (
@@ -25,7 +25,7 @@ function LangaugesNav({ selected, onUpdateLanguage }) {
   )
 }
 
-LangaugesNav.propTypes = {
+LanguagesNav.propTypes = {
   selected: PropTypes.string.isRequired,
   onUpdateLanguage: PropTypes.func.isRequired
 }
@@ -83,7 +83,7 @@ function popularReducer(state, action) {
   if (action.type === 'success') {
     return {
       ...state,
-      [action.selectedLangage]: action.repos,
+      [action.selectedLanguage]: action.repos,
       error: null
     }
   } else if (action.type === 'error') {
@@ -117,7 +117,10 @@ export default function Popular() {
       fetchedLanguages.current.push(selectedLanguage)
       //even tho we're modifying current property, object/ref react makes for us wil remain same in memory so won't reinvoke 
       fetchPopularRepos(selectedLanguage)
-        .then((repos) => dispatch({ type: "success", selectedLanguage, repos }))
+        .then((repos) => {
+          console.log(repos)
+          dispatch({ type: "success", selectedLanguage, repos })
+        })
         .catch((error) => dispatch({ type: "error", error }))
     }
     //key is ability to manage this 2nd array, repos logic inside of a reducer was helpful, we could just dispatch type of actions that occurred
@@ -128,10 +131,10 @@ export default function Popular() {
 
   return (
     <React.Fragment>
-      <LangaugesNav
+      <LanguagesNav
         selected={selectedLanguage}
         //effect reapplied will take care of itself
-        onUpdateLanguagree={setSelectedLanguage}
+        onUpdateLanguage={setSelectedLanguage}
       />
 
       {isLoading() && <Loading text='Fetching Repos' />}
