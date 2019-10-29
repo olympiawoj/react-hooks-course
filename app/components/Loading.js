@@ -20,9 +20,9 @@ export default function Loading({ text = "Loading", speed = 300 }) {
   React.useEffect(() => {
     const id = window.setInterval(() => {
       setContent((content) => {
-        return content === `${text}...` ? text : text + "."
+        return content === `${text}...` ? text : `${content}.`
       })
-    })
+    }, speed)
     //function returned from effect will be invoked when component is removed from the dom
     return () => window.clearInterval(id)
   }, [text, speed])

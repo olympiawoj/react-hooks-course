@@ -118,7 +118,7 @@ export default function Popular() {
       //even tho we're modifying current property, object/ref react makes for us wil remain same in memory so won't reinvoke 
       fetchPopularRepos(selectedLanguage)
         .then((repos) => {
-          console.log(repos)
+          // console.log(repos)
           dispatch({ type: "success", selectedLanguage, repos })
         })
         .catch((error) => dispatch({ type: "error", error }))
